@@ -1,0 +1,33 @@
+{
+  "name": "codora",
+  "version": "1.0.0",
+  "description": "One-click build and deploy for Expo/React Native apps",
+  "main": "index.js",
+  "bin": {
+    "codora": "./bin/codora.js"
+  },
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [
+    "expo",
+    "react-native",
+    "build",
+    "deploy",
+    "eas",
+    "apk",
+    "ipa",
+    "testflight",
+    "mobile"
+  ],
+  "author": "Daniel Tang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Daniel4SE/codora-app-build.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {}
+}

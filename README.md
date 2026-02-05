@@ -1,6 +1,6 @@
 # 🚀 Codora App Build
 
-One-click build and deploy for Expo/React Native apps with Claude Code.
+One-click build and deploy for Expo/React Native apps.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/Daniel4SE/codora-app-build)](https://github.com/Daniel4SE/codora-app-build/stargazers)
@@ -8,6 +8,15 @@ One-click build and deploy for Expo/React Native apps with Claude Code.
 **🌍 Language**: English | [简体中文](./docs/README_CN.md) | [日本語](./docs/README_JP.md) | [한국어](./docs/README_KR.md) | [Español](./docs/README_ES.md) | [Français](./docs/README_FR.md) | [Deutsch](./docs/README_DE.md)
 
 ---
+
+## 🔌 Supported Platforms
+
+| Platform | Status | Install Command |
+|----------|--------|-----------------|
+| **Claude Code** | ✅ Full Support | `curl -fsSL .../install.sh \| bash` |
+| **OpenCode** | ✅ Full Support | `curl -fsSL .../adapters/opencode/install.sh \| bash` |
+| **Codex CLI** | ✅ Full Support | `curl -fsSL .../adapters/codex/install.sh \| bash` |
+| **Codora CLI** | ✅ Standalone | `npm install -g codora` |
 
 ## ✨ Features
 
@@ -156,6 +165,53 @@ No! EAS cloud builds run on servers, works from any OS.
 - **iOS**: App Store Connect → TestFlight → Add testers
 - **Android**: Google Play Console → Internal testing → Add emails
 </details>
+
+## 🔧 Platform-Specific Installation
+
+### Claude Code (Default)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Daniel4SE/codora-app-build/main/install.sh | bash
+```
+
+Then use `/build` command in Claude Code.
+
+### OpenCode
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Daniel4SE/codora-app-build/main/adapters/opencode/install.sh | bash
+```
+
+Then use `/build` command in OpenCode.
+
+### Codex CLI
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Daniel4SE/codora-app-build/main/adapters/codex/install.sh | bash
+```
+
+Then use `$expo-build` skill in Codex, or just ask "Build an APK for me".
+
+### Codora CLI (Standalone)
+
+```bash
+# Install globally
+npm install -g codora
+
+# Or from source
+git clone https://github.com/Daniel4SE/codora-app-build.git
+cd codora-app-build/adapters/codora-cli
+npm install -g .
+```
+
+Usage:
+```bash
+codora preview        # Local dev server
+codora android        # Build APK
+codora ios            # Build IPA
+codora submit ios     # Submit to TestFlight
+codora update         # OTA update
+```
 
 ## 🤝 Contributing
 
