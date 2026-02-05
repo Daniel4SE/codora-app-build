@@ -1,175 +1,174 @@
-# 🚀 Claude Expo Build Skill
+# 🚀 Codora App Build
 
-一键构建、预览、部署 Expo/React Native 应用的 Claude Code Skill。
+One-click build and deploy for Expo/React Native apps with Claude Code.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/Daniel4SE/codora-app-build)](https://github.com/Daniel4SE/codora-app-build/stargazers)
 
-## ✨ 功能
+**🌍 Language**: English | [简体中文](./docs/README_CN.md) | [日本語](./docs/README_JP.md) | [한국어](./docs/README_KR.md) | [Español](./docs/README_ES.md) | [Français](./docs/README_FR.md) | [Deutsch](./docs/README_DE.md)
 
-- 🔥 **本地预览** - 秒级启动开发服务器
-- 📱 **构建 APK** - 自动构建 Android 安装包
-- 🍎 **构建 IPA** - 自动构建 iOS 安装包
-- 🚀 **提交商店** - 一键提交到 App Store / Google Play
-- ⚡ **OTA 更新** - 热更新无需重新提交审核
+---
 
-## 📦 安装
+## ✨ Features
 
-### 方法 1: 一键安装
+- 🔥 **Local Preview** - Start dev server in seconds
+- 📱 **Build APK** - Auto-build Android packages
+- 🍎 **Build IPA** - Auto-build iOS packages
+- 🚀 **Store Submit** - One-click submit to App Store / Google Play
+- ⚡ **OTA Updates** - Hot updates without store re-submission
+
+## 📦 Installation
+
+### Option 1: One-line Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/realdanieltang/claude-expo-build-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Daniel4SE/codora-app-build/main/install.sh | bash
 ```
 
-### 方法 2: 手动安装
+### Option 2: Clone & Install
 
 ```bash
-# 克隆仓库
-git clone https://github.com/Daniel4SE/claude-expo-build-skill.git
-cd claude-expo-build-skill
-
-# 运行安装脚本
+git clone https://github.com/Daniel4SE/codora-app-build.git
+cd codora-app-build
 ./install.sh
 ```
 
-### 方法 3: 复制文件
+### Option 3: Manual Install
 
 ```bash
-# 创建目录
+# Create directories
 mkdir -p ~/.claude/{commands,scripts,skills}
 
-# 复制文件
-cp commands/build.md ~/.claude/commands/
-cp scripts/expo-build.sh ~/.claude/scripts/
-cp skills/expo-build-deploy.md ~/.claude/skills/
+# Download files
+curl -fsSL https://raw.githubusercontent.com/Daniel4SE/codora-app-build/main/commands/build.md -o ~/.claude/commands/build.md
+curl -fsSL https://raw.githubusercontent.com/Daniel4SE/codora-app-build/main/scripts/expo-build.sh -o ~/.claude/scripts/expo-build.sh
+curl -fsSL https://raw.githubusercontent.com/Daniel4SE/codora-app-build/main/skills/expo-build-deploy.md -o ~/.claude/skills/expo-build-deploy.md
 
-# 添加执行权限
+# Set permissions
 chmod +x ~/.claude/scripts/expo-build.sh
 ```
 
-## 🎯 使用方法
+## 🎯 Usage
 
-在 Claude Code 中输入：
+In Claude Code, type:
 
 ```
-/build preview          # 🚀 本地预览（最快）
-/build android          # 📱 构建 Android APK
-/build ios              # 🍎 构建 iOS IPA
-/build all              # 📱🍎 构建全部
-/build submit ios       # 提交到 TestFlight
-/build update           # OTA 热更新
+/build preview          # 🚀 Local preview (fastest)
+/build android          # 📱 Build Android APK
+/build ios              # 🍎 Build iOS IPA
+/build all              # 📱🍎 Build all platforms
+/build submit ios       # Submit to TestFlight
+/build update           # OTA hot update
 ```
 
-或者用自然语言：
-- "帮我构建 APK"
-- "部署到 TestFlight"
-- "预览应用"
+Or use natural language:
+- "Build APK for me"
+- "Deploy to TestFlight"
+- "Preview the app"
 
-## 📋 命令参考
+## 📋 Command Reference
 
-| 命令 | 说明 | 耗时 |
-|------|------|------|
-| `/build preview` | 本地开发预览 | 几秒 |
-| `/build preview ios` | iOS 模拟器预览 | 几秒 |
-| `/build preview android` | Android 模拟器预览 | 几秒 |
-| `/build android` | 构建 Android APK | 10-15分钟 |
-| `/build ios` | 构建 iOS IPA | 10-15分钟 |
-| `/build all` | 构建全部平台 | 15-20分钟 |
-| `/build submit ios` | 提交到 TestFlight | 1-5分钟 |
-| `/build submit android` | 提交到 Google Play | 1-5分钟 |
-| `/build update` | OTA 热更新 | 1-2分钟 |
+| Command | Description | Time |
+|---------|-------------|------|
+| `/build preview` | Local dev preview | Seconds |
+| `/build preview ios` | iOS simulator preview | Seconds |
+| `/build preview android` | Android emulator preview | Seconds |
+| `/build android` | Build Android APK | 10-15 min |
+| `/build ios` | Build iOS IPA | 10-15 min |
+| `/build all` | Build all platforms | 15-20 min |
+| `/build submit ios` | Submit to TestFlight | 1-5 min |
+| `/build submit android` | Submit to Google Play | 1-5 min |
+| `/build update` | OTA hot update | 1-2 min |
 
-## 🔧 前置要求
+## 🔧 Prerequisites
 
-| 要求 | 用途 | 费用 |
-|------|------|------|
-| [Node.js](https://nodejs.org/) | 运行环境 | 免费 |
-| [Expo 账户](https://expo.dev/) | 云构建 | 免费 |
-| [EAS CLI](https://docs.expo.dev/eas/) | 构建工具 | 免费 |
-| [Apple Developer](https://developer.apple.com/) | iOS 发布 | $99/年 |
-| [Google Play Console](https://play.google.com/console/) | Android 发布 | $25 一次性 |
+| Requirement | Purpose | Cost |
+|-------------|---------|------|
+| [Node.js](https://nodejs.org/) | Runtime | Free |
+| [Expo Account](https://expo.dev/) | Cloud builds | Free |
+| [EAS CLI](https://docs.expo.dev/eas/) | Build tool | Free |
+| [Apple Developer](https://developer.apple.com/) | iOS publishing | $99/year |
+| [Google Play Console](https://play.google.com/console/) | Android publishing | $25 one-time |
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
 ```bash
-# 1. 安装 EAS CLI
+# 1. Install EAS CLI
 npm install -g eas-cli
 
-# 2. 登录 Expo
+# 2. Login to Expo
 eas login
 
-# 3. 在项目目录初始化
+# 3. Initialize in your project
 cd your-expo-project
 eas build:configure
 
-# 4. 使用 /build 命令
-# 在 Claude Code 中输入 /build preview
+# 4. Use /build command in Claude Code
 ```
 
-## 📁 文件结构
+## 📁 File Structure
 
 ```
 ~/.claude/
 ├── commands/
-│   └── build.md          # Skill 命令定义
+│   └── build.md          # Skill command definition
 ├── scripts/
-│   └── expo-build.sh     # 构建脚本
+│   └── expo-build.sh     # Build script
 └── skills/
-    └── expo-build-deploy.md  # 详细文档
+    └── expo-build-deploy.md  # Detailed documentation
 ```
 
-## 📤 输出文件
+## 📤 Output Files
 
-构建完成后，文件保存在：
+After build completion, files are saved to:
 
 ```
 ~/Desktop/
-├── {项目名}.apk    # Android 安装包
-└── {项目名}.ipa    # iOS 安装包
+├── {project-name}.apk    # Android package
+└── {project-name}.ipa    # iOS package
 ```
 
-## ❓ 常见问题
+## ❓ FAQ
 
 <details>
-<summary><b>构建太慢怎么办？</b></summary>
+<summary><b>Build too slow?</b></summary>
 
-- 日常开发用 `/build preview`，秒开
-- 只在需要分发时用 `/build android/ios`
+- Use `/build preview` for daily development (instant)
+- Only use `/build android/ios` when distributing
 </details>
 
 <details>
-<summary><b>如何更新已发布的 App？</b></summary>
+<summary><b>How to update a published app?</b></summary>
 
-- 小更新：`/build update`（OTA，即时生效）
-- 大更新：修改版本号 → `/build all` → `/build submit`
+- Small updates: `/build update` (OTA, instant)
+- Major updates: Change version → `/build all` → `/build submit`
 </details>
 
 <details>
-<summary><b>iOS 构建需要 Mac 吗？</b></summary>
+<summary><b>Do I need a Mac for iOS builds?</b></summary>
 
-不需要！EAS 云构建在服务器上完成，任何系统都可以。
+No! EAS cloud builds run on servers, works from any OS.
 </details>
 
 <details>
-<summary><b>如何添加测试员？</b></summary>
+<summary><b>How to add testers?</b></summary>
 
-- **iOS**: App Store Connect → TestFlight → 添加测试员
-- **Android**: Google Play Console → 内部测试 → 添加邮箱
+- **iOS**: App Store Connect → TestFlight → Add testers
+- **Android**: Google Play Console → Internal testing → Add emails
 </details>
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Contributions are welcome! Feel free to submit Issues and Pull Requests.
 
-## 📄 许可证
+## 📄 License
 
-MIT License - 详见 [LICENSE](LICENSE)
+MIT License - see [LICENSE](LICENSE) for details.
 
-## 👤 作者
+## 👤 Author
 
-**Daniel Tang**
-- GitHub: [@realdanieltang](https://github.com/realdanieltang)
-- Email: realdanieltang@gmail.com
+**Daniel Tang** - [@Daniel4SE](https://github.com/Daniel4SE)
 
 ---
 
-⭐ 如果这个 Skill 对你有帮助，请给个 Star！
+⭐ Star this repo if you find it helpful!
