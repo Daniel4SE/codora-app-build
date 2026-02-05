@@ -24,7 +24,7 @@ curl -fsSL https://raw.githubusercontent.com/realdanieltang/claude-expo-build-sk
 
 ```bash
 # 克隆仓库
-git clone https://github.com/realdanieltang/claude-expo-build-skill.git
+git clone https://github.com/Daniel4SE/claude-expo-build-skill.git
 cd claude-expo-build-skill
 
 # 运行安装脚本

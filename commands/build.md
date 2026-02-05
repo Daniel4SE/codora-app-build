@@ -148,4 +148,4 @@ eas credentials         # 管理证书
 ---
 **作者**: Daniel Tang
 **版本**: 1.0.0
-**仓库**: https://github.com/realdanieltang/claude-expo-build-skill
+**仓库**: https://github.com/Daniel4SE/claude-expo-build-skill

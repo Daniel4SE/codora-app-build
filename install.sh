@@ -39,7 +39,7 @@ if [ -f "$SCRIPT_DIR/commands/build.md" ]; then
 else
     # Download from GitHub
     echo -e "${YELLOW}    Downloading from GitHub...${NC}"
-    REPO_URL="https://raw.githubusercontent.com/realdanieltang/claude-expo-build-skill/main"
+    REPO_URL="https://raw.githubusercontent.com/Daniel4SE/claude-expo-build-skill/main"
     curl -fsSL "$REPO_URL/commands/build.md" -o "$CLAUDE_DIR/commands/build.md"
     curl -fsSL "$REPO_URL/scripts/expo-build.sh" -o "$CLAUDE_DIR/scripts/expo-build.sh"
     curl -fsSL "$REPO_URL/skills/expo-build-deploy.md" -o "$CLAUDE_DIR/skills/expo-build-deploy.md"
