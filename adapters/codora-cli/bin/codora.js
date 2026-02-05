@@ -4,6 +4,9 @@ const { execSync, spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
+const net = require('net');
+
+const DEFAULT_PORT = 8081;
 
 // Colors
 const colors = {
@@ -117,10 +120,49 @@ function getProjectName() {
   return 'app';
 }
 
+// Check if port is in use
+function isPortInUse(port) {
+  return new Promise((resolve) => {
+    const server = net.createServer();
+    server.once('error', () => resolve(true));
+    server.once('listening', () => {
+      server.close();
+      resolve(false);
+    });
+    server.listen(port, '127.0.0.1');
+  });
+}
+
+// Find available port
+async function findAvailablePort(startPort = DEFAULT_PORT) {
+  for (let port = startPort; port < startPort + 100; port++) {
+    const inUse = await isPortInUse(port);
+    if (!inUse) return port;
+  }
+  return startPort;
+}
+
 async function preview(platform) {
   log.info('Starting development server...');
+
+  // Check if default port is in use
+  const portInUse = await isPortInUse(DEFAULT_PORT);
+
+  let portArg = '';
+  if (portInUse) {
+    log.warn(`Port ${DEFAULT_PORT} is already in use`);
+    const availablePort = await findAvailablePort(DEFAULT_PORT + 1);
+
+    if (availablePort !== DEFAULT_PORT) {
+      log.info(`Auto-switching to port ${availablePort}`);
+      portArg = `--port ${availablePort}`;
+    } else {
+      log.warn('Could not find available port, trying default anyway');
+    }
+  }
+
   const platformArg = platform ? `--${platform}` : '';
-  await runAsync(`npx expo start ${platformArg}`);
+  await runAsync(`npx expo start ${portArg} ${platformArg}`);
 }
 
 async function build(platform) {

@@ -1,8 +1,8 @@
 #!/bin/bash
 # Expo Build & Deploy Script
 # Usage: expo-build.sh [project_dir] [platform] [action]
-# Platform: android, ios, all
-# Action: build, submit, both
+# Platform: android, ios, all, preview
+# Action: build, submit, both, preview, update
 
 set -e
 
@@ -10,6 +10,7 @@ PROJECT_DIR="${1:-.}"
 PLATFORM="${2:-all}"
 ACTION="${3:-build}"
 OUTPUT_DIR="$HOME/Desktop"
+DEFAULT_PORT=8081
 
 # Colors
 RED='\033[0;31m'
@@ -22,6 +23,120 @@ log_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
 log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
 log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+# Find available port starting from DEFAULT_PORT
+find_available_port() {
+    local port=$DEFAULT_PORT
+    local max_port=$((DEFAULT_PORT + 100))
+
+    while [ $port -lt $max_port ]; do
+        if ! lsof -i :$port > /dev/null 2>&1; then
+            echo $port
+            return 0
+        fi
+        port=$((port + 1))
+    done
+
+    echo $DEFAULT_PORT
+    return 1
+}
+
+# Kill existing Expo process on port
+kill_expo_on_port() {
+    local port=$1
+    local pid=$(lsof -ti :$port 2>/dev/null)
+
+    if [ -n "$pid" ]; then
+        log_warning "Found existing process on port $port (PID: $pid)"
+        read -p "Kill existing process? [y/N] " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            kill -9 $pid 2>/dev/null || true
+            sleep 1
+            log_success "Killed process $pid"
+            return 0
+        fi
+        return 1
+    fi
+    return 0
+}
+
+# Start Expo preview with auto port switching
+start_preview() {
+    local platform_arg=""
+
+    case "$PLATFORM" in
+        ios)
+            platform_arg="--ios"
+            ;;
+        android)
+            platform_arg="--android"
+            ;;
+        web)
+            platform_arg="--web"
+            ;;
+    esac
+
+    cd "$PROJECT_DIR"
+
+    # Check if default port is in use
+    if lsof -i :$DEFAULT_PORT > /dev/null 2>&1; then
+        log_warning "Port $DEFAULT_PORT is already in use"
+
+        # Try to find available port
+        AVAILABLE_PORT=$(find_available_port)
+
+        if [ "$AVAILABLE_PORT" != "$DEFAULT_PORT" ]; then
+            log_info "Using alternative port: $AVAILABLE_PORT"
+            npx expo start --port $AVAILABLE_PORT $platform_arg
+        else
+            # Ask user what to do
+            log_warning "No available port found in range $DEFAULT_PORT-$((DEFAULT_PORT + 100))"
+            echo ""
+            echo "Options:"
+            echo "  1) Kill existing Expo process and restart"
+            echo "  2) Connect to existing server"
+            echo "  3) Cancel"
+            echo ""
+            read -p "Choose [1/2/3]: " -n 1 -r choice
+            echo
+
+            case $choice in
+                1)
+                    kill_expo_on_port $DEFAULT_PORT
+                    sleep 2
+                    npx expo start --port $DEFAULT_PORT $platform_arg
+                    ;;
+                2)
+                    log_info "Existing Expo server is running on port $DEFAULT_PORT"
+                    log_info "Open Expo Go app and scan QR code, or press keys in that terminal:"
+                    echo "  - Press 'i' for iOS simulator"
+                    echo "  - Press 'a' for Android emulator"
+                    echo "  - Press 'w' for web browser"
+                    ;;
+                *)
+                    log_info "Cancelled"
+                    exit 0
+                    ;;
+            esac
+        fi
+    else
+        log_info "Starting Expo on port $DEFAULT_PORT..."
+        npx expo start --port $DEFAULT_PORT $platform_arg
+    fi
+}
+
+# OTA Update
+push_update() {
+    local message="${1:-OTA update}"
+
+    cd "$PROJECT_DIR"
+
+    log_info "Publishing OTA update..."
+    eas update --branch production --message "$message" --non-interactive
+
+    log_success "Update published!"
+}
 
 # Check prerequisites
 check_prerequisites() {
@@ -209,6 +324,12 @@ main() {
     cd "$PROJECT_DIR"
 
     case "$ACTION" in
+        preview)
+            start_preview
+            ;;
+        update)
+            push_update "$4"
+            ;;
         build)
             case "$PLATFORM" in
                 android)
@@ -267,7 +388,7 @@ main() {
             ;;
         *)
             log_error "Unknown action: $ACTION"
-            echo "Usage: $0 [project_dir] [android|ios|all] [build|submit|both]"
+            echo "Usage: $0 [project_dir] [android|ios|all|preview] [build|submit|both|preview|update]"
             exit 1
             ;;
     esac

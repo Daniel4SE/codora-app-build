@@ -120,6 +120,10 @@ eas build:configure
 
 ## 常见问题
 
+**Q: 端口被占用怎么办？**
+- 自动检测端口冲突，切换到可用端口 (8082, 8083...)
+- 也可以选择终止已有进程或连接到现有服务器
+
 **Q: 构建太慢怎么办？**
 - 日常开发用 `/build preview`，秒开
 - 只在需要分发时用 `/build android/ios`
@@ -147,5 +151,5 @@ eas credentials         # 管理证书
 
 ---
 **作者**: Daniel Tang
-**版本**: 1.0.0
-**仓库**: https://github.com/Daniel4SE/claude-expo-build-skill
+**版本**: 1.1.0
+**仓库**: https://github.com/Daniel4SE/codora-app-build
